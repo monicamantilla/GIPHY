@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type = "text/css" href="./style.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <title>Giftastic</title>
+
+    </head>
+
+    <body>
+        <div id="container"></div>
+
+             <div class="jumbotron jumbotron-fluid">
+                  <h1 class="display-4">Gif-stastic!</h1> 
+              </div>
+
+            <div id="sportsbuttons">
+   
+            </div>
+
+                <form id="sports-form">
+                    <label for= "sportInput">Sport Name</label>
+                    <input type="text" id= "sportInput"><br>
+                    <!-- <button id="submit">Submit</button> -->
+
+                    <input id="add-sport" type="submit" value = "Add a Sport">
+                </form>    
+             <div id= "holdGifs"></div>
+
+        </div>
+
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+
+    var topics = ["baseball", "basketball", "soccer", "volleyball", "tennis"]
+        //function to add buttons 
+        function renderButtons(){
+
+            $("#sportsbuttons").empty();
+
+            for(var i = 0; i < topics.length; i++){
+
+                var a = $("<button>");
+
+                a.addClass("sport");
+                a.attr("data-sport", topics[i]);
+                a.text(topics[i]);
+                $("#sportsbuttons").append(a);
+            }
+        }
+
+        $("#add-sport").on("click", function(event){
+            event.preventDefault();
+
+            var sport = $("#sportInput").val().trim();
+            topics.push(sport);
+
+            renderButtons();
+    
+    
+    });
+
+    renderButtons();
+    
+$("#sportsbuttons").on("click", ".sport", function(){
+            var x = $(this).data("sport");
+            console.log(x);
+            $("#holdGifs").empty(); 
+
+            var queryURL = "http://api.giphy.com/v1/gifs/search?&q="+x+"&api_key=LNcpMaEEgVFj8hjBqGm8dHJbh2wulb8j&limit=10&offset=0&rating=G&lang=en";
+            console.log(queryURL);
+            $.ajax({url: queryURL, method: 'GET'})
+            .done(function(response){
+                
+            for(var i = 0; i < response.data.length; i++){
+                var sportsDiv = $("<div>");
+                var p = $("<p>").text("Rating: " + response.data[i].rating);
+                    
+                    var sportsGif = $("<img>");
+                    sportsGif.attr('src', response.data[i].images.fixed_height.url);
+                    
+                    sportsDiv.append(p);
+                    sportsDiv.append(sportsGif);
+
+                    $("#holdGifs").append(sportsDiv);
+            }
+           })
+        });
+        </script>
+
+        <link rel="stylesheet"  href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="app.js"></script>
+    </body>
+</html>
