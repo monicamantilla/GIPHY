@@ -1,44 +1,49 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" type = "text/css" href="./style.css">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <title>Giftastic</title>
 
-    </head>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+    <title>Giftastic</title>
 
-    <body>
-        <div id="container"></div>
+</head>
 
-             <div class="jumbotron jumbotron-fluid">
-                  <h1 class="display-4">Gif-stastic!</h1> 
-              </div>
+<body>
+    <div id="container">
 
-            <div id="sportsbuttons">
-   
+        <div class="jumbotron">
+            <h1 class="display-4">Gif-tastic!</h1>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div id="sportsbuttons"></div>
+                <div id="holdGifs"></div>
             </div>
 
+            <div class="col-lg-6">
                 <form id="sports-form">
-                    <label for= "sportInput">Sport Name</label>
-                    <input type="text" id= "sportInput"><br>
-                    <!-- <button id="submit">Submit</button> -->
-
-                    <input id="add-sport" type="submit" value = "Add a Sport">
-                </form>    
-             <div id= "holdGifs"></div>
-
+                    <label for="sportInput">Add a sport</label>
+                    <input type="text" id="sportInput"><br>
+                    <input id="add-sport" type="submit" value="Submit">
+                </form>
+            </div>
         </div>
+
+    </div>
 
     <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script type="text/javascript">
 
-    var topics = ["baseball", "basketball", "soccer", "volleyball", "tennis"]
+        var topics = ["baseball", "basketball", "soccer", "volleyball", "tennis"]
         //function to add buttons 
-        function renderButtons(){
+        function renderButtons() {
 
             $("#sportsbuttons").empty();
 
-            for(var i = 0; i < topics.length; i++){
+            for (var i = 0; i < topics.length; i++) {
 
                 var a = $("<button>");
 
@@ -49,46 +54,47 @@
             }
         }
 
-        $("#add-sport").on("click", function(event){
+        $("#add-sport").on("click", function (event) {
             event.preventDefault();
 
             var sport = $("#sportInput").val().trim();
             topics.push(sport);
 
             renderButtons();
-    
-    
-    });
 
-    renderButtons();
-    
-$("#sportsbuttons").on("click", ".sport", function(){
+
+        });
+
+        renderButtons();
+
+        $("#sportsbuttons").on("click", ".sport", function () {
             var x = $(this).data("sport");
             console.log(x);
-            $("#holdGifs").empty(); 
+            $("#holdGifs").empty();
 
-            var queryURL = "http://api.giphy.com/v1/gifs/search?&q="+x+"&api_key=LNcpMaEEgVFj8hjBqGm8dHJbh2wulb8j&limit=10&offset=0&rating=G&lang=en";
+            var queryURL = "http://api.giphy.com/v1/gifs/search?&q=" + x + "&api_key=LNcpMaEEgVFj8hjBqGm8dHJbh2wulb8j&limit=10&offset=0&rating=G&lang=en";
             console.log(queryURL);
-            $.ajax({url: queryURL, method: 'GET'})
-            .done(function(response){
-                
-            for(var i = 0; i < response.data.length; i++){
-                var sportsDiv = $("<div>");
-                var p = $("<p>").text("Rating: " + response.data[i].rating);
-                    
-                    var sportsGif = $("<img>");
-                    sportsGif.attr('src', response.data[i].images.fixed_height.url);
-                    
-                    sportsDiv.append(p);
-                    sportsDiv.append(sportsGif);
+            $.ajax({ url: queryURL, method: 'GET' })
+                .done(function (response) {
 
-                    $("#holdGifs").append(sportsDiv);
-            }
-           })
+                    for (var i = 0; i < response.data.length; i++) {
+                        var sportsDiv = $("<div>");
+                        var p = $("<p>").text("Rating: " + response.data[i].rating);
+
+                        var sportsGif = $("<img>");
+                        sportsGif.attr('src', response.data[i].images.fixed_height.url);
+
+                        sportsDiv.append(p);
+                        sportsDiv.append(sportsGif);
+
+                        $("#holdGifs").append(sportsDiv);
+                    }
+                })
         });
-        </script>
+    </script>
 
-        <link rel="stylesheet"  href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-        <script src="app.js"></script>
-    </body>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="app.js"></script>
+</body>
+
 </html>
