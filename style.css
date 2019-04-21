@@ -1,4 +1,12 @@
 
+html{
+    background-color: black;
+}
+
+#container{
+    background-color: black; 
+}
+
 .sport{
     font-family: 'Lato', sans-serif;
     background-color: #8d4264;
@@ -20,14 +28,17 @@ margin-left: 25px;
 margin-right: 25px;
 border-radius: 50%;
 font-family: 'Lato', sans-serif;
+color: white;
 }
 
 #sports-form{
     font-family: 'Lato', sans-serif;
+    color: white;
 }
  #holdGifs{
      margin-left: 25px;
      float: left;
+     color: white;
  }
 
  #add-sport{
